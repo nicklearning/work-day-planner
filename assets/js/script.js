@@ -17,6 +17,43 @@ $(document).ready(function () {
     // attribute of each time-block be used to conditionally add or remove the
     // past, present, and future classes? How can Day.js be used to get the
     // current hour in 24-hour time?
+    var timeBlocks = $(".time-block") // returns the array of time blocks
+
+    var currentHour = dayjs().hour(); //grabs the current hour
+
+    // loop over the array of timeblocks and conditionally set the color
+    for (let index = 0; index < timeBlocks.length; index++) {
+      const element = timeBlocks[index]; // selects a timebox
+      var timeBlockHour = timeBlocks[index].id.substring(5, 7) // returns the hour of the timeblock
+
+      if (timeBlockHour == currentHour) { // update classlist to for the present hour
+        if (element.classList.contains('past')) {
+          element.classList.replace('past', 'present');
+        } else if (element.classList.contains('future')) {
+          element.classList.replace('future', 'present')
+        } else {
+          continue;
+        }
+      } else if (timeBlockHour < currentHour) { // update the classlist for past hours
+        if (element.classList.contains('present')) {
+          element.classList.replace('present', 'past')
+        } else if (element.classList.contains('future')) {
+          element.classList.replace('future', 'past')
+        } else {
+          continue;
+        }
+      } else if (timeBlockHour > currentHour) { // update the classlist for future hours
+        if (element.classList.contains('present')) {
+          element.classList.replace('present', 'future');
+        } else if (element.classList.contains('past')) {
+          element.classList.replace('past', 'future');
+        } else {
+          continue;
+        }
+      } // end outer if statement
+    } // end for loop
+
+
     //
     // TODO: Add code to get any user input that was saved in localStorage and set
     // the values of the corresponding textarea elements. HINT: How can the id
